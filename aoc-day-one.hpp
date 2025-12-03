@@ -36,14 +36,9 @@ void aoc_day_one_main()
 {
     std::ifstream fin("day-one.txt", std::ios::in);
     std::string line;
-    // dial starts at 50
     int dial_start = 50;
-    // right adds up 99, then starts at 0
-    // left subtracts to 0 then subtracts from 99
-    // ticks are not constrained to between 0 - 99
-    unsigned int count = 0;
-    unsigned int line_count = 1;
-    // split line to a direction char and number, use simple count logic
+    size_t count = 0;
+    size_t line_count = 1;
 
     // try creating a buffer from 0 - 99 and then moving an iterator/pointer?
     std::vector<int> dial_counter(100);
@@ -60,26 +55,6 @@ void aoc_day_one_main()
 
         std::cout << line_count << ": direction: " << direction << " ticks: " << ticks << " line: " << line << '\n';
 
-        /** // this logic doesn't work as the number of ticks is not in the range 0-99 but can be anything 0-n
-        if (direction == 'L')
-        {
-            int start = dial;
-            dial = dial - ticks;
-            if (dial < 0)
-                dial = 100 - (ticks - start);
-        }
-        else if (direction == 'R')
-        {
-            int start = dial;
-            dial = dial + ticks;
-            if (dial > 99)
-                dial = (start + ticks) - 100;
-        }
-        if (dial == 0)
-            count++;
-        **/
-
-        // if l we loop a decrement, if r an increment
         if (direction == 'L')
         {
             for (size_t i = ticks; i > 0; i--)
@@ -105,4 +80,55 @@ void aoc_day_one_main()
             count++;
         std::cout << line_count++ << ": dial pos: " << *dial_position << " count: " << count << '\n';
     }
+}
+
+void aoc_day_one_pt2_main()
+{
+    std::ifstream fin("day-one.txt", std::ios::in);
+    std::string line;
+    int dial_start = 50;
+    size_t count = 0;
+
+    std::vector<int> dial_counter(100);
+    std::iota(dial_counter.begin(), dial_counter.end(), 0);
+    auto dial_position = dial_counter.begin();
+    std::advance(dial_position, dial_start);
+
+    // this time count whenever we pass 0 which is dial_counter.begin()
+    while (fin >> line)
+    {
+        char direction = line[0];
+        int ticks = 0;
+        auto [ptr, ec] = std::from_chars(line.data() + 1, line.data() + line.size(), ticks);
+
+        if (direction == 'L')
+        {
+            for (size_t i = ticks; i > 0; i--)
+            {
+                if (dial_position == dial_counter.begin())
+                {
+                    dial_position = dial_counter.end();
+                    count++;
+                }
+
+                dial_position = std::prev(dial_position, 1);
+            }
+        }
+        else if (direction == 'R')
+        {
+            for (size_t i = 0; i < ticks; i++)
+            {
+
+                if (dial_position == dial_counter.begin())
+                    count++;
+
+                dial_position = std::next(dial_position, 1);
+
+                if (dial_position == dial_counter.end())
+                    dial_position = dial_counter.begin();
+            }
+        }
+    }
+
+    std::cout << " count: " << count << '\n';
 }
