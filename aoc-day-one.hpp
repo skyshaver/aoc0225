@@ -3,6 +3,9 @@
 #include <string>
 #include <charconv>
 #include <optional>
+#include <vector>
+#include <numeric>
+#include <iterator>
 
 /*
 The safe has a dial with only an arrow on it; around the dial are the numbers 0 through 99 in order.
@@ -31,29 +34,33 @@ auto to_int = [](std::string_view s) -> std::optional<int>
 
 void aoc_day_one_main()
 {
-    std::ifstream fin("day-one-test.txt", std::ios::in);
+    std::ifstream fin("day-one.txt", std::ios::in);
     std::string line;
     // dial starts at 50
-    int dial = 50;
+    int dial_start = 50;
     // right adds up 99, then starts at 0
     // left subtracts to 0 then subtracts from 99
+    // ticks are not constrained to between 0 - 99
     unsigned int count = 0;
+    unsigned int line_count = 1;
     // split line to a direction char and number, use simple count logic
+
+    // try creating a buffer from 0 - 99 and then moving an iterator/pointer?
+    std::vector<int> dial_counter(100);
+    std::iota(dial_counter.begin(), dial_counter.end(), 0);
+    auto dial_position = dial_counter.begin();
+    std::advance(dial_position, dial_start);
     while (fin >> line)
     {
         char direction = line[0];
         int ticks = 0;
         // this isn't safe and makes assumptions about the length etc. of the strings but we'll leave it as toy code
-        if (line.size() == 2)
-        {
-            auto [ptr, ec] = std::from_chars(line.data() + 1, line.data() + 2, ticks);
-        }
-        else
-        {
-            auto [ptr, ec] = std::from_chars(line.data() + 1, line.data() + 3, ticks);
-        }
-        std::cout << "direction: " << direction << " ticks: " << ticks << " line: " << line << '\n';
+        // we know first char is L or R so take the rest of the string as an int
+        auto [ptr, ec] = std::from_chars(line.data() + 1, line.data() + line.size(), ticks);
 
+        std::cout << line_count << ": direction: " << direction << " ticks: " << ticks << " line: " << line << '\n';
+
+        /** // this logic doesn't work as the number of ticks is not in the range 0-99 but can be anything 0-n
         if (direction == 'L')
         {
             int start = dial;
@@ -70,6 +77,32 @@ void aoc_day_one_main()
         }
         if (dial == 0)
             count++;
-        std::cout << "dial pos: " << dial << " count: " << count << '\n';
+        **/
+
+        // if l we loop a decrement, if r an increment
+        if (direction == 'L')
+        {
+            for (size_t i = ticks; i > 0; i--)
+            {
+                if (dial_position == dial_counter.begin())
+                    dial_position = dial_counter.end();
+
+                dial_position = std::prev(dial_position, 1);
+            }
+        }
+        else if (direction == 'R')
+        {
+            for (size_t i = 0; i < ticks; i++)
+            {
+
+                dial_position = std::next(dial_position, 1);
+
+                if (dial_position == dial_counter.end())
+                    dial_position = dial_counter.begin();
+            }
+        }
+        if (*dial_position == 0)
+            count++;
+        std::cout << line_count++ << ": dial pos: " << *dial_position << " count: " << count << '\n';
     }
 }
