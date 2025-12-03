@@ -1,0 +1,1 @@
+.\build\bin\Debug\aoc2025.exe

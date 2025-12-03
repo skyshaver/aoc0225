@@ -1,12 +1,6 @@
-#include <iostream>
-#include <fstream>
+#include "aoc-day-one.hpp"
 
 int main()
 {
-    std::ifstream fin("day-one.txt", std::ios::in);
-    std::string line;
-    while (fin >> line)
-    {
-        std::cout << line << '\n';
-    }
+    aoc_day_one_main();
 }
