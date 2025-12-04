@@ -31,7 +31,7 @@
 
  */
 
-void printStringVec(std::vector<std::string> &vec)
+auto printStringVec(std::vector<std::string> &vec) -> void
 {
     for (const auto &e : vec)
         std::cout << e << ' ';
@@ -47,7 +47,7 @@ auto to_int64(std::string_view s) -> std::optional<int64_t>
         return std::nullopt;
 };
 
-std::vector<std::string> split(const std::string &str, char delim = ' ')
+auto split(const std::string &str, char delim = ' ') -> std::vector<std::string>
 {
     std::vector<std::string> result;
     size_t idx = str.find(delim);
@@ -62,13 +62,18 @@ std::vector<std::string> split(const std::string &str, char delim = ' ')
     return result;
 }
 
+auto is_repeated(std::string_view str) -> bool
+{
+    return std::equal(str.begin(), str.begin() + str.size() / 2, str.begin() + str.size() / 2, str.end());
+}
+
 struct product_range
 {
     int64_t start;
     int64_t end;
 };
 
-auto split_to_product_range(const std::string &range_str) -> product_range
+auto split_to_product_range(std::string_view range_str) -> product_range
 {
     auto index_of_hyphen = range_str.find('-');
     product_range range{};
@@ -80,6 +85,8 @@ auto split_to_product_range(const std::string &range_str) -> product_range
         range.end = *e;
     return range;
 }
+
+// test string for palindrome
 
 auto aoc_day_two_main() -> void
 {
@@ -96,9 +103,14 @@ auto aoc_day_two_main() -> void
         product_ranges.push_back(split_to_product_range(e));
     }
 
-    // size_t i = 0;
-    // for (const auto &e : product_ranges)
-    // {
-    //     std::cout << e.start << ' ' << e.end << ' ' << ranges[i++] << '\n';
-    // }
+    int64_t total = 0;
+    for (const auto &e : product_ranges)
+    {
+        for (int64_t i = e.start; i <= e.end; i++)
+        {
+            if (is_repeated(std::to_string(i)))
+                total += i;
+        }
+    }
+    std::cout << "total: " << total << '\n';
 }
