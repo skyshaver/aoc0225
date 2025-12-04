@@ -34,7 +34,7 @@ auto to_int = [](std::string_view s) -> std::optional<int>
 
 void aoc_day_one_main()
 {
-    std::ifstream fin("day-one.txt", std::ios::in);
+    std::ifstream fin("./test-inputs/day-one.txt", std::ios::in);
     std::string line;
     int dial_start = 50;
     size_t count = 0;
@@ -84,7 +84,7 @@ void aoc_day_one_main()
 
 void aoc_day_one_pt2_main()
 {
-    std::ifstream fin("day-one.txt", std::ios::in);
+    std::ifstream fin("./test-inputs/day-one.txt", std::ios::in);
     std::string line;
     int dial_start = 50;
     size_t count = 0;
