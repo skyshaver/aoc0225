@@ -23,15 +23,6 @@ but your recent required official North Pole secret entrance security training s
 The actual password is the number of times the dial is left pointing at 0 after any rotation in the sequence.
 **/
 
-auto to_int = [](std::string_view s) -> std::optional<int>
-{
-    int value{};
-    if (std::from_chars(s.data(), s.data() + s.size(), value).ec == std::errc{})
-        return value;
-    else
-        return std::nullopt;
-};
-
 void aoc_day_one_main()
 {
     std::ifstream fin("./test-inputs/day-one.txt", std::ios::in);
