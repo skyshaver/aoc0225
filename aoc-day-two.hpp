@@ -130,8 +130,8 @@ auto is_repeating(std::string_view str, std::string_view pattern) -> bool
     }
     return true;
 }
-// 565656 and 824824824 and 2121212121 break this logic as the pattern 565 is repeated but 56 is the repeating pattern
-// new idea, check each substr is repeating pattern up to str.size() / 2
+
+// brute forcey, test every substr to see if it's a repeating pattern
 auto is_repeating_pattern_2(std::string_view str) -> bool
 {
     // if first char isn't found again no pattern
