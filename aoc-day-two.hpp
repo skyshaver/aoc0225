@@ -6,6 +6,7 @@
 #include <vector>
 #include <numeric>
 #include <iterator>
+#include <algorithm>
 
 /**
     The ranges are separated by commas (,); each range gives its first ID and last ID separated by a dash (-).
@@ -85,12 +86,40 @@ auto split_to_product_range(std::string_view range_str) -> product_range
         range.end = *e;
     return range;
 }
+/**
+    Now, an ID is invalid if it is made only of some sequence of digits repeated at least twice.
+    So, 12341234 (1234 two times), 123123123 (123 three times), 1212121212 (12 five times), and 1111111 (1 seven times) are all invalid IDs.
+ */
 
-// test string for palindrome
+// once you see the same character again you have a sequence, take next chunk and check against key
+// 1188511880-1188511890 still has one invalid ID, 1188511885 our logic is flawed, sequence can have repeating digits
+auto is_repeating_pattern(std::string_view str) -> bool
+{
+    // find first repeated char
+    auto first_repeated = std::find(str.begin() + 1, str.end(), str[0]);
+
+    if (first_repeated == str.end())
+        return false;
+
+    auto initial_pattern = std::string(str.begin(), first_repeated);
+    // must be enough chars to repeat pattern
+    if (str.size() % initial_pattern.size() != 0)
+        return false;
+
+    for (size_t i = 1; i < str.size() / initial_pattern.size(); i++)
+    {
+        auto first = str.begin() + (initial_pattern.size() * i);
+        auto last = first + initial_pattern.size();
+        if (!std::equal(first, last, initial_pattern.begin(), initial_pattern.end()))
+            return false;
+    }
+
+    return true;
+}
 
 auto aoc_day_two_main() -> void
 {
-    std::ifstream fin("./test-inputs/day-two.txt", std::ios::in);
+    std::ifstream fin("./test-inputs/day-two-test.txt", std::ios::in);
     std::string line;
     // input is one line of comma separated text
     if (fin.is_open())
@@ -106,9 +135,17 @@ auto aoc_day_two_main() -> void
     int64_t total = 0;
     for (const auto &e : product_ranges)
     {
+        // part one
+        // for (int64_t i = e.start; i <= e.end; i++)
+        // {
+        //     if (is_repeated(std::to_string(i)))
+        //         total += i;
+        // }
+
+        // part two
         for (int64_t i = e.start; i <= e.end; i++)
         {
-            if (is_repeated(std::to_string(i)))
+            if (is_repeating_pattern(std::to_string(i)))
                 total += i;
         }
     }

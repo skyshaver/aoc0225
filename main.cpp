@@ -1,4 +1,4 @@
-#include "aoc-day-one.hpp"
+// #include "aoc-day-one.hpp"
 #include "aoc-day-two.hpp"
 
 int main()
