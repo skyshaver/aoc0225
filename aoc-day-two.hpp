@@ -117,9 +117,40 @@ auto is_repeating_pattern(std::string_view str) -> bool
     return true;
 }
 
+auto is_repeating(std::string_view str, std::string_view pattern) -> bool
+{
+    if (str.size() % pattern.size() != 0)
+        return false;
+    for (size_t i = 1; i < str.size() / pattern.size(); i++)
+    {
+        auto first = str.begin() + (pattern.size() * i);
+        auto last = first + pattern.size();
+        if (!std::equal(first, last, pattern.begin(), pattern.end()))
+            return false;
+    }
+    return true;
+}
+// 565656 and 824824824 and 2121212121 break this logic as the pattern 565 is repeated but 56 is the repeating pattern
+// new idea, check each substr is repeating pattern up to str.size() / 2
+auto is_repeating_pattern_2(std::string_view str) -> bool
+{
+    // if first char isn't found again no pattern
+    if (std::find(str.begin() + 1, str.end(), str[0]) == str.end())
+        return false;
+
+    for (size_t i = 0; i < str.size() / 2; i++)
+    {
+        if (is_repeating(str, str.substr(0, i + 1)))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 auto aoc_day_two_main() -> void
 {
-    std::ifstream fin("./test-inputs/day-two-test.txt", std::ios::in);
+    std::ifstream fin("./test-inputs/day-two.txt", std::ios::in);
     std::string line;
     // input is one line of comma separated text
     if (fin.is_open())
@@ -145,7 +176,7 @@ auto aoc_day_two_main() -> void
         // part two
         for (int64_t i = e.start; i <= e.end; i++)
         {
-            if (is_repeating_pattern(std::to_string(i)))
+            if (is_repeating_pattern_2(std::to_string(i)))
                 total += i;
         }
     }
