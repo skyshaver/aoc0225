@@ -39,7 +39,6 @@ auto aoc_day_three_main() -> void
         lines.push_back(line);
     }
 
-    int64_t sum = 0;
     // part 1
     // max not including last digit, and then max in rest of range?
     // for (const auto &e : lines)
@@ -59,6 +58,8 @@ auto aoc_day_three_main() -> void
     //  || 9 || 87  || 6543 2111 1111  max + 1 -> end - 12
     // || 234 || 2342 3423 4278 -> 4342 3423 4278
     // || 818 || 1819 1111 2111 -> 8889 1111 2111
+    int64_t sum = 0;
+    // add max from range excluding final 12 - solution.size?
     for (const auto &e : lines)
     {
 
@@ -67,25 +68,26 @@ auto aoc_day_three_main() -> void
         auto p_iter = std::max_element(prefix.begin(), prefix.end());
         // erase from start of prefix to max
         prefix.erase(prefix.begin(), p_iter);
+        std::string mutated{prefix.substr(1, prefix.size() - 1) + suffix};
+        std::string solution{prefix[0]};
 
-        std::string mutated{prefix + suffix};
-
-        while (mutated.size() > 12)
+        auto s_iter = mutated.begin();
+        while (solution.size() < 12)
         {
-            auto s_iter = std::min_element(mutated.begin() + 1, mutated.end());
-            mutated.erase(s_iter);
+            s_iter = std::max_element(s_iter, mutated.end() - (11 - solution.size()));
+            solution.push_back(*s_iter);
+            s_iter++;
         }
 
-        if (auto n = to_int64(mutated))
+        if (auto n = to_int64(solution))
         {
             sum += *n;
-            std::cout << mutated << '\n';
+            // std::cout << solution << '\n';
         }
     }
+    std::cout << "sum: " << sum << '\n';
 
-    std::cout << sum << '\n';
-
-    // 373 3444 4443 3724 4341 4634 5246 3644 2344 9335 41445 8443 3344 4254 4445 3534 4544 4434 3444 3243 3545 4446 4233 4344 4472
+    // 373 3444 4443 3724 4341 4634 5246 3644 2344 9 335 41445 8 443 3344 4254 4445 3534 4544 4434 3444 3243 3545 4446 4233 4344 4472
 }
 
 /**
