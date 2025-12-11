@@ -1,12 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <charconv>
-#include <optional>
-#include <vector>
-#include <numeric>
-#include <iterator>
-#include <algorithm>
+#include "utils.hpp"
 
 /**
     The ranges are separated by commas (,); each range gives its first ID and last ID separated by a dash (-).
@@ -31,37 +23,6 @@
     Adding up all the invalid IDs in this example produces 1227775554.
 
  */
-
-auto printStringVec(std::vector<std::string> &vec) -> void
-{
-    for (const auto &e : vec)
-        std::cout << e << ' ';
-    std::cout << '\n';
-}
-
-auto to_int64(std::string_view s) -> std::optional<int64_t>
-{
-    int64_t value{};
-    if (std::from_chars(s.data(), s.data() + s.size(), value).ec == std::errc{})
-        return value;
-    else
-        return std::nullopt;
-};
-
-auto split(const std::string &str, char delim = ' ') -> std::vector<std::string>
-{
-    std::vector<std::string> result;
-    size_t idx = str.find(delim);
-    size_t start = 0;
-    while (idx != std::string::npos)
-    {
-        result.push_back(str.substr(start, idx - start));
-        start = idx + 1;
-        idx = str.find(delim, idx + 1);
-    }
-    result.push_back(str.substr(start));
-    return result;
-}
 
 auto is_repeated(std::string_view str) -> bool
 {

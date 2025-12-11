@@ -1,21 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <charconv>
-#include <optional>
-#include <vector>
-#include <numeric>
-#include <iterator>
-#include <algorithm>
-
-auto to_int64(std::string_view s) -> std::optional<int64_t>
-{
-    int64_t value{};
-    if (std::from_chars(s.data(), s.data() + s.size(), value).ec == std::errc{})
-        return value;
-    else
-        return std::nullopt;
-};
+#include "utils.hpp"
 
 // part one need to find the two digits that make the highest number IN ORDER
 /**
@@ -26,18 +9,9 @@ auto to_int64(std::string_view s) -> std::optional<int64_t>
  */
 auto aoc_day_three_main() -> void
 {
-    std::ifstream fin("./test-inputs/day-three.txt", std::ios::in);
-    std::string line;
-    std::vector<std::string> lines;
-    if (!fin.is_open())
-    {
-        std::cout << "file failed to open\n";
-    }
+    auto path = "./test-inputs/day-three.txt";
 
-    while (fin >> line)
-    {
-        lines.push_back(line);
-    }
+    auto lines = utils::file_to_vector_of_lines(path);
 
     // part 1
     // max not including last digit, and then max in rest of range?
@@ -79,7 +53,7 @@ auto aoc_day_three_main() -> void
             s_iter++;
         }
 
-        if (auto n = to_int64(solution))
+        if (auto n = utils::to_int64(solution))
         {
             sum += *n;
             // std::cout << solution << '\n';

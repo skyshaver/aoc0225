@@ -1,11 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <charconv>
-#include <optional>
-#include <vector>
-#include <numeric>
-#include <iterator>
+#include "utils.hpp"
 
 /*
 The safe has a dial with only an arrow on it; around the dial are the numbers 0 through 99 in order.
@@ -22,15 +15,6 @@ You could follow the instructions,
 but your recent required official North Pole secret entrance security training seminar taught you that the safe is actually a decoy.
 The actual password is the number of times the dial is left pointing at 0 after any rotation in the sequence.
 **/
-
-auto to_int = [](std::string_view s) -> std::optional<int>
-{
-    int value{};
-    if (std::from_chars(s.data(), s.data() + s.size(), value).ec == std::errc{})
-        return value;
-    else
-        return std::nullopt;
-};
 
 void aoc_day_one_main()
 {
