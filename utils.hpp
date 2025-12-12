@@ -17,7 +17,7 @@ namespace utils
     auto printStringVec(std::vector<std::string> &vec) -> void
     {
         for (const auto &e : vec)
-            std::cout << e << ' ';
+            std::cout << e << '\n';
         std::cout << '\n';
     }
 
