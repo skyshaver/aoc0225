@@ -73,4 +73,23 @@ namespace utils
         }
         return lines;
     }
+
+    struct product_range
+    {
+        int64_t start;
+        int64_t end;
+    };
+
+    auto split_to_product_range(std::string_view range_str) -> product_range
+    {
+        auto index_of_hyphen = range_str.find('-');
+        product_range range{};
+        auto start = range_str.substr(0, index_of_hyphen);
+        auto end = range_str.substr(index_of_hyphen + 1, range_str.size());
+        if (auto s = utils::to_int64(start))
+            range.start = *s;
+        if (auto e = utils::to_int64(end))
+            range.end = *e;
+        return range;
+    }
 }

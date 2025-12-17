@@ -41,9 +41,9 @@ auto split_to_product_range(std::string_view range_str) -> product_range
     product_range range{};
     auto start = range_str.substr(0, index_of_hyphen);
     auto end = range_str.substr(index_of_hyphen + 1, range_str.size());
-    if (auto s = to_int64(start))
+    if (auto s = utils::to_int64(start))
         range.start = *s;
-    if (auto e = to_int64(end))
+    if (auto e = utils::to_int64(end))
         range.end = *e;
     return range;
 }
@@ -117,7 +117,7 @@ auto aoc_day_two_main() -> void
     if (fin.is_open())
         fin >> line;
 
-    auto ranges = split(line, ',');
+    auto ranges = utils::split(line, ',');
     std::vector<product_range> product_ranges{};
     for (const auto &e : ranges)
     {
