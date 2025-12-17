@@ -55,6 +55,7 @@ namespace utils
     };
 
     // ifstream will NOT take a string_view as a arg see https://stackoverflow.com/questions/79445302/can-stdifstream-and-stdofstream-be-used-with-a-stdstring-view-filename-arg
+    // using >> skips over blank lines like while(fin >> line), getline gets all lines, even blank
     auto file_to_vector_of_lines(fs::path path) -> std::vector<std::string>
     {
         std::ifstream fin(path, std::ios::in);
@@ -66,7 +67,7 @@ namespace utils
             return lines;
         }
 
-        while (fin >> line)
+        while (std::getline(fin, line))
         {
             lines.push_back(line);
         }
