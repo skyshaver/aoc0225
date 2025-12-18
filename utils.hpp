@@ -8,15 +8,16 @@
 #include <iterator>
 #include <algorithm>
 #include <filesystem>
+#include <print>
 
 namespace fs = std::filesystem;
 
 namespace utils
 {
 
-    auto printStringVec(std::vector<std::string> &vec) -> void
+    auto printStringVec(std::vector<std::string>& vec) -> void
     {
-        for (const auto &e : vec)
+        for (const auto& e : vec)
             std::cout << e << '\n';
         std::cout << '\n';
     }
@@ -30,7 +31,7 @@ namespace utils
             return std::nullopt;
     };
 
-    auto split(const std::string &str, char delim = ' ') -> std::vector<std::string>
+    auto split(const std::string& str, char delim = ' ') -> std::vector<std::string>
     {
         std::vector<std::string> result;
         size_t idx = str.find(delim);
@@ -46,13 +47,13 @@ namespace utils
     }
 
     auto to_int = [](std::string_view s) -> std::optional<int>
-    {
-        int value{};
-        if (std::from_chars(s.data(), s.data() + s.size(), value).ec == std::errc{})
-            return value;
-        else
-            return std::nullopt;
-    };
+        {
+            int value{};
+            if (std::from_chars(s.data(), s.data() + s.size(), value).ec == std::errc{})
+                return value;
+            else
+                return std::nullopt;
+        };
 
     // ifstream will NOT take a string_view as a arg see https://stackoverflow.com/questions/79445302/can-stdifstream-and-stdofstream-be-used-with-a-stdstring-view-filename-arg
     // using >> skips over blank lines like while(fin >> line), getline gets all lines, even blank

@@ -30,5 +30,36 @@ auto aoc_day_five_main() -> void
             counter++;
 
     }
-    std::cout << "fresh: " << counter << '\n';
+    std::println("fresh: {}", counter);
+
+    // part 2 needs full list of ids in ranges that are fresh
+    // sort the ranges first, use same base < algo as std::pair, then merge rangees
+    std::sort(ranges.begin(), ranges.end(), [](auto& a, auto& b) {return a.start < b.start || (a.start == b.start && a.end < b.end);});
+
+    std::vector<utils::product_range> results;
+    auto it = ranges.begin();
+    auto current = *it;
+    it++;
+    while (it != ranges.end())
+    {
+        if (current.end >= it->start)
+        {
+            current.end = std::max(current.end, it->end);
+        }
+        else
+        {
+            results.push_back(current);
+            current = *it;
+        }
+        it++;
+    }
+    results.push_back(current);
+
+    int64_t total = 0;
+    // total is inclusive so add 1 to range
+    for (const auto& e : results)
+        total += (e.end + 1) - e.start;
+    std::println("total range of fresh ids: {}", total);
+
+
 }
