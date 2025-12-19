@@ -18,7 +18,7 @@ The actual password is the number of times the dial is left pointing at 0 after 
 
 void aoc_day_one_main()
 {
-    std::ifstream fin("./test-inputs/day-one.txt", std::ios::in);
+    std::ifstream fin("./test_inputs/day-one.txt", std::ios::in);
     std::string line;
     int dial_start = 50;
     size_t count = 0;
@@ -68,7 +68,7 @@ void aoc_day_one_main()
 
 void aoc_day_one_pt2_main()
 {
-    std::ifstream fin("./test-inputs/day-one.txt", std::ios::in);
+    std::ifstream fin("./test_inputs/day-one.txt", std::ios::in);
     std::string line;
     int dial_start = 50;
     size_t count = 0;

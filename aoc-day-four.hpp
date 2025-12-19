@@ -1,6 +1,6 @@
 #include "utils.hpp"
 
-auto count_rolls(const std::vector<std::string> &rows) -> int
+auto count_rolls(const std::vector<std::string>& rows) -> int
 {
     // [row][col]
     auto start_row = 1;
@@ -40,7 +40,7 @@ auto count_rolls(const std::vector<std::string> &rows) -> int
     return sum;
 }
 
-auto count_rolls_and_set_empty_rolls(std::vector<std::string> &rows) -> int
+auto count_rolls_and_set_empty_rolls(std::vector<std::string>& rows) -> int
 {
     // [row][col]
     auto start_row = 1;
@@ -74,13 +74,13 @@ auto count_rolls_and_set_empty_rolls(std::vector<std::string> &rows) -> int
                 if (acc < 4)
                 {
                     sum++;
-                    remove_list.push_back({r, c});
+                    remove_list.push_back({ r, c });
                 }
             }
         }
     }
 
-    for (const auto &e : remove_list)
+    for (const auto& e : remove_list)
     {
         rows[e.first][e.second] = '.';
     }
@@ -90,7 +90,7 @@ auto count_rolls_and_set_empty_rolls(std::vector<std::string> &rows) -> int
 
 auto aoc_day_four_main() -> void
 {
-    auto path = "./test-inputs/day-four.txt";
+    auto path = "./test-inputs/day_four.txt";
     auto rows = utils::file_to_vector_of_lines(path);
 
     // pad rows with empty top/bottom/front/back
@@ -100,7 +100,7 @@ auto aoc_day_four_main() -> void
     // bottom
     rows.insert(rows.end(), std::string(row_length, '.'));
     // pad each row with a leading and trailing .
-    for (auto &row : rows)
+    for (auto& row : rows)
     {
         row.insert(row.begin(), '.');
         row.insert(row.end(), '.');

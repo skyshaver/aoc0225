@@ -9,7 +9,7 @@
  */
 auto aoc_day_three_main() -> void
 {
-    auto path = "./test-inputs/day-three.txt";
+    auto path = "./test-inputs/day_three.txt";
 
     auto lines = utils::file_to_vector_of_lines(path);
 
@@ -34,16 +34,16 @@ auto aoc_day_three_main() -> void
     // || 818 || 1819 1111 2111 -> 8889 1111 2111
     int64_t sum = 0;
     // add max from range excluding final 12 - solution.size?
-    for (const auto &e : lines)
+    for (const auto& e : lines)
     {
 
-        std::string prefix{e.begin(), e.end() - 11};
+        std::string prefix{ e.begin(), e.end() - 11 };
         std::string suffix(e.end() - 11, e.end());
         auto p_iter = std::max_element(prefix.begin(), prefix.end());
         // erase from start of prefix to max
         prefix.erase(prefix.begin(), p_iter);
-        std::string mutated{prefix.substr(1, prefix.size() - 1) + suffix};
-        std::string solution{prefix[0]};
+        std::string mutated{ prefix.substr(1, prefix.size() - 1) + suffix };
+        std::string solution{ prefix[0] };
 
         auto s_iter = mutated.begin();
         while (solution.size() < 12)

@@ -52,8 +52,8 @@ auto split_to_product_range(std::string_view range_str) -> product_range
     So, 12341234 (1234 two times), 123123123 (123 three times), 1212121212 (12 five times), and 1111111 (1 seven times) are all invalid IDs.
  */
 
-// once you see the same character again you have a sequence, take next chunk and check against key
-// 1188511880-1188511890 still has one invalid ID, 1188511885 our logic is flawed, sequence can have repeating digits
+ // once you see the same character again you have a sequence, take next chunk and check against key
+ // 1188511880-1188511890 still has one invalid ID, 1188511885 our logic is flawed, sequence can have repeating digits
 auto is_repeating_pattern(std::string_view str) -> bool
 {
     // find first repeated char
@@ -111,7 +111,7 @@ auto is_repeating_pattern_2(std::string_view str) -> bool
 
 auto aoc_day_two_main() -> void
 {
-    std::ifstream fin("./test-inputs/day-two.txt", std::ios::in);
+    std::ifstream fin("./test_inputs/day-two.txt", std::ios::in);
     std::string line;
     // input is one line of comma separated text
     if (fin.is_open())
@@ -119,13 +119,13 @@ auto aoc_day_two_main() -> void
 
     auto ranges = utils::split(line, ',');
     std::vector<product_range> product_ranges{};
-    for (const auto &e : ranges)
+    for (const auto& e : ranges)
     {
         product_ranges.push_back(split_to_product_range(e));
     }
 
     int64_t total = 0;
-    for (const auto &e : product_ranges)
+    for (const auto& e : product_ranges)
     {
         // part one
         // for (int64_t i = e.start; i <= e.end; i++)
