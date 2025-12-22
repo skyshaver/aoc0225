@@ -2,7 +2,8 @@
 // #include "aoc-day-two.hpp"
 // #include "aoc-day-three.hpp"
 // #include "aoc-day-four.hpp"
-#include "aoc-day-five.hpp"
+// #include "aoc-day-five.hpp"
+#include "aoc-day-six.hpp"
 
 int main()
 {
@@ -11,5 +12,6 @@ int main()
     // aoc_day_two_main();
     // aoc_day_three_main();
     // aoc_day_four_main();
-    aoc_day_five_main();
+    // aoc_day_five_main();
+    aoc_day_six_main();
 }
