@@ -36,7 +36,6 @@ auto aoc_day_six_main() -> void
     for (auto& row : rows)
     {
         std::erase_if(row, [](auto& s) {return s.empty();});
-        // utils::printStringVec((row));
     }
 
     std::vector<std::vector<int64_t>> nums(rows[0].size());
@@ -53,7 +52,6 @@ auto aoc_day_six_main() -> void
     for (const auto& n : nums)
     {
         sum += add_row(n, rows.back().at(count++)[0]);
-        std::println("{}", sum);
     }
     std::println("sum: {}", sum);
 }

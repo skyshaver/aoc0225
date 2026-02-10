@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <print>
+#include <ranges>
 
 namespace fs = std::filesystem;
 
