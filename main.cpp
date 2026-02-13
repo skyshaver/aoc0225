@@ -4,20 +4,7 @@
 // #include "aoc-day-four.hpp"
 // #include "aoc-day-five.hpp"
 #include "aoc-day-six.hpp"
-template<class T>
-void fill_with_range(std::vector<T>& vin, const std::vector<T>& to_copy) {
-    if (to_copy.size() > vin.size()) { return; }
-    auto start = std::begin(vin);
-    for (; start < std::end(vin); std::advance(start, to_copy.size())) {
-        if (std::distance(start, std::end(vin)) < to_copy.size()) {
-            break;
-        }
-        std::copy(std::begin(to_copy), std::end(to_copy), start);
-    }
-    if (start < std::end(vin)) {
-        std::copy(std::begin(to_copy), std::begin(to_copy) + std::distance(start, std::end(vin)), start);
-    }
-}
+
 
 int main()
 {
@@ -37,8 +24,14 @@ int main()
     std::vector<float> vin(27);
     std::vector<float> to_copy(11);
     std::iota(std::begin(to_copy), std::end(to_copy), 1.f);
-    fill_with_range(vin, to_copy);
+    utils::fill_with_range(vin, to_copy);
     for (const auto& e : vin)
+        std::cout << e << ' ';
+    std::cout << '\n';
+
+    auto res = utils::fill_vector_with_sequence(to_copy, 27);
+
+    for (const auto& e : res)
         std::cout << e << ' ';
     std::cout << '\n';
 }

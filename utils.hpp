@@ -94,4 +94,39 @@ namespace utils
             range.end = *e;
         return range;
     }
+
+    template<class T>
+    void fill_with_range(std::vector<T>& vin, const std::vector<T>& to_copy) {
+
+        auto start = std::begin(vin);
+        for (; start < std::end(vin); std::advance(start, to_copy.size())) {
+            if (std::distance(start, std::end(vin)) < to_copy.size()) {
+                break;
+            }
+            std::copy(std::begin(to_copy), std::end(to_copy), start);
+        }
+        if (start < std::end(vin)) {
+            std::copy(std::begin(to_copy), std::begin(to_copy) + std::distance(start, std::end(vin)), start);
+        }
+    }
+
+    template<class T>
+    auto fill_vector_with_sequence(const std::vector<T>& sequence, size_t capacity) -> std::vector<T> {
+
+        std::vector<T> vin(capacity);
+
+        auto start = std::begin(vin);
+        for (; start < std::end(vin); std::advance(start, sequence.size())) {
+            if (std::distance(start, std::end(vin)) < sequence.size()) {
+                break;
+            }
+            std::copy(std::begin(sequence), std::end(sequence), start);
+        }
+        if (start < std::end(vin)) {
+            std::copy(std::begin(sequence), std::begin(sequence) + std::distance(start, std::end(vin)), start);
+        }
+
+        return vin;
+    }
+
 }
